@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    rel="stylesheet"
+    as="style"
+    crossorigin
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css"
+  />
+  <meta name="theme-color" content="#FF472D" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+        "Pretendard Variable", Pretendard, Roboto, "Noto Sans KR", "Segoe UI",
+        "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji",
+        "Segoe UI Symbol", sans-serif;
+    }
+
+    body {
+      background-color: white;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    #florida-aqua {
+      height: 100%;
+      /* background: linear-gradient(180deg, #40e0d0 0%, #1e40af 100%); */
+      z-index: 500;
+    }
+
+    #florida-red {
+      height: 100%;
+      z-index: 500;
+    }
+
+    .screen-border {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+      border: 24px solid #ff472d;
+      box-sizing: border-box;
+      transition: border-color 0.3s ease;
+    }
+
+    /* Scrollable container */
+    .scroll-container {
+      height: 100vh;
+      overflow-y: auto;
+      scroll-behavior: smooth;
+    }
+
+    .content-section {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .alfa-slab-one-regular {
+      font-family: "Alfa Slab One", serif;
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    #main {
+      position: relative;
+      top: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      text-align: center;
+    }
+
+    .content-wrapper {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .dolphin-container {
+      animation: dolphinSlideUp 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+      transform: translateY(calc(100vh + 150px));
+      background-color: #fff;
+    }
+
+    .dolphin-image {
+      width: 180px;
+      height: auto;
+    }
+
+    @keyframes dolphinSlideUp {
+      0% {
+        transform: translateY(calc(100vh + 150px)) rotate(-90deg);
+        opacity: 0;
+      }
+
+      60% {
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.9;
+      }
+    }
+
+    .title-text {
+      font-size: 5rem;
+      color: #ff472d;
+      line-height: 0.9;
+      text-shadow: 4px 4px 2px #000080;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      opacity: 0;
+      transform: translateY(50px);
+      animation: textSlideUp 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.6s forwards;
+    }
+
+    @keyframes textSlideUp {
+      0% {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    #wave {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 160px;
+      z-index: 1000;
+    }
+
+    canvas {
+      width: 100%;
+      height: 100%;
+    }
+
+    @media (max-width: 768px) {
+      .screen-border {
+        border-width: 18px;
+      }
+
+      .title-text {
+        font-size: 2.5rem;
+      }
+
+      .content-wrapper {
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .dolphin-image {
+        width: 100px;
+      }
+
+      #main {
+        align-items: flex-start;
+        padding-top: 20vh;
+      }
+
+      #wave {
+        height: 100px;
+      }
+    }
+
+    #aqua-hat {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    #red-hat {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    #navy-hat {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .hat-circle {
+      width: 340px;
+      height: 340px;
+      background-color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 10px solid #40e0d0;
+    }
+
+    #red-hat .hat-circle {
+      border: 10px solid #e38073;
+    }
+
+    #navy-hat .hat-circle {
+      border: 10px solid #1e3a8a;
+    }
+
+    .hat-img {
+      width: 240px;
+      height: 240px;
+      background-image: url("./aqua_resize.png");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      border-radius: 50%;
+    }
+
+    #red-hat .hat-img {
+      background-image: url("./florida_red_resize.png");
+    }
+
+    #navy-hat .hat-img {
+      background-image: url("./okhotsk_navy_resize.png");
+    }
+
+    .hat-name {
+      font-family: "Alfa Slab One", serif;
+      font-size: 2.5rem;
+      color: white;
+      font-weight: bold;
+      text-align: center;
+      line-height: 1.1;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .hat-subname {
+      font-family: "Alfa Slab One", serif;
+      font-size: 1.8rem;
+      color: #40e0d0;
+      font-weight: bold;
+      text-align: center;
+      line-height: 1.1;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      margin-top: -8px;
+    }
+
+    #red-hat .hat-subname {
+      color: #e38073;
+    }
+
+    #navy-hat .hat-subname {
+      color: #1e3a8a;
+    }
+
+    .hat-introduce {
+      font-family: Arial, sans-serif;
+      font-size: 1.1rem;
+      color: #000;
+      text-align: center;
+      line-height: 1.4;
+      max-width: 300px;
+    }
+
+    .price {
+      font-family: "Alfa Slab One", serif;
+      font-size: 2.5rem;
+      color: #40e0d0;
+      font-weight: bold;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    #red-hat .price {
+      color: #e38073;
+    }
+
+    #navy-hat .price {
+      color: #1e3a8a;
+    }
+
+    .number {
+      display: inline-block;
+    }
+
+    @media (max-width: 768px) {
+      .hat-circle {
+        width: 220px;
+        height: 220px;
+      }
+
+      .hat-img {
+        width: 160px;
+        height: 160px;
+      }
+
+      .hat-name {
+        font-size: 2rem;
+      }
+
+      .hat-subname {
+        font-size: 1.4rem;
+        margin-top: -6px;
+      }
+
+      .hat-introduce {
+        font-size: 1rem;
+      }
+
+      .price {
+        font-size: 2rem;
+      }
+
+      #aqua-hat {
+        gap: 20px;
+        padding: 20px;
+        justify-content: flex-start;
+        padding-top: 20vh;
+      }
+
+      #red-hat {
+        gap: 20px;
+        padding: 20px;
+        justify-content: flex-start;
+        padding-top: 20vh;
+      }
+
+      #navy-hat {
+        gap: 20px;
+        padding: 20px;
+        justify-content: flex-start;
+        padding-top: 20vh;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hat-circle {
+        width: 180px;
+        height: 180px;
+      }
+
+      .hat-img {
+        width: 130px;
+        height: 130px;
+      }
+
+      .hat-name {
+        font-size: 1.6rem;
+      }
+
+      .hat-subname {
+        font-size: 1.2rem;
+        margin-top: -5px;
+      }
+
+      .hat-introduce {
+        font-size: 0.9rem;
+      }
+
+      .price {
+        font-size: 1.5rem;
+      }
+
+      #aqua-hat {
+        gap: 16px;
+      }
+
+      #red-hat {
+        gap: 16px;
+      }
+
+      #navy-hat {
+        gap: 16px;
+      }
+    }
+
+    /* Subscribe Page Styles */
+    #subscribe-page {
+      background-color: #000080;
+      padding: 40px 20px;
+    }
+
+    .subscribe-content {
+      text-align: center;
+      max-width: 600px;
+      width: 100%;
+    }
+
+    .subscribe-title {
+      font-family: "Pretendard Variable", Pretendard, sans-serif;
+      font-size: 3.5rem;
+      font-weight: 900;
+      color: white;
+      margin-bottom: 24px;
+      line-height: 1.2;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .subscribe-subtitle {
+      font-family: "Pretendard Variable", Pretendard, sans-serif;
+      font-size: 1.3rem;
+      color: white;
+      margin-bottom: 40px;
+      line-height: 1.5;
+      opacity: 0.9;
+    }
+
+    .subscribe-button {
+      font-family: "Pretendard Variable", Pretendard, sans-serif;
+      font-size: 1.5rem;
+      color: white;
+      background-color: #ff472d;
+      border: none;
+      padding: 16px 48px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .subscribe-button:hover {
+      background-color: #e63e2a;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .subscribe-button:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    @media (max-width: 768px) {
+      .subscribe-title {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+      }
+
+      .subscribe-subtitle {
+        font-size: 1.1rem;
+        margin-bottom: 32px;
+      }
+
+      .subscribe-button {
+        font-size: 1.3rem;
+        padding: 14px 36px;
+      }
+
+      #subscribe-page {
+        padding: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .subscribe-title {
+        font-size: 2rem;
+      }
+
+      .subscribe-subtitle {
+        font-size: 1rem;
+      }
+
+      .subscribe-button {
+        font-size: 1.2rem;
+        padding: 12px 30px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="scroll-container" id="scrollContainer">
+    <div class="content-section" id="main">
+      <div class="content-wrapper">
+        <div class="dolphin-container">
+          <img src="./dolpine_resize.png" alt="Dolphin" class="dolphin-image" />
+        </div>
+        <div class="title-text alfa-slab-one-regular">
+          <div>OKHOTSK</div>
+          <div>REPORT</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="florida-aqua" class="content-section">
+      <div id="aqua-hat">
+        <div class="hat-circle">
+          <div class="hat-img"></div>
+        </div>
+        <div class="hat-name">FLORIDA</div>
+        <div class="hat-subname">AQUA-BLUE</div>
+        <div class="hat-introduce">아름다운 에메랄드 빛의 모자</div>
+        <div class="price">₩ <span class="number">20000</span></div>
+      </div>
+      <div class="aqua-introduce"></div>
+    </div>
+
+    <div id="florida-red" class="content-section">
+      <div id="red-hat">
+        <div class="hat-circle">
+          <div class="hat-img"></div>
+        </div>
+        <div class="hat-name">FLORIDA</div>
+        <div class="hat-subname">CRIMSON-RED</div>
+        <div class="hat-introduce">강렬한 레드 컬러의 모자</div>
+        <div class="price">₩ <span class="number red-price">20000</span></div>
+      </div>
+      <div class="red-introduce"></div>
+    </div>
+
+    <div id="okhotsk-navy" class="content-section">
+      <div id="navy-hat">
+        <div class="hat-circle">
+          <div class="hat-img"></div>
+        </div>
+        <div class="hat-name">OKHOTSK</div>
+        <div class="hat-subname">NAVY-BLUE</div>
+        <div class="hat-introduce">깊은 네이비 컬러의 모자</div>
+        <div class="price">₩ <span class="number navy-price">20000</span></div>
+      </div>
+      <div class="navy-introduce"></div>
+    </div>
+
+    <div id="subscribe-page" class="content-section">
+      <div class="subscribe-content">
+        <h1 class="subscribe-title">오호츠크 뉴스레터</h1>
+        <p class="subscribe-subtitle">
+          고정관념을 깨고<br />새로운 세계로 가는 영감을 드립니다
+        </p>
+        <button class="subscribe-button">구독하기</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen-border"></div>
+
+  <div id="wave">
+    <canvas id="waveCanvas"></canvas>
+  </div>
+  <script>
+    const canvas = document.getElementById("waveCanvas");
+    const ctx = canvas.getContext("2d");
+
+    // Canvas 크기 설정
+    function resizeCanvas() {
+      const dpr = window.devicePixelRatio || 1;
+      const displayWidth = canvas.offsetWidth;
+      const displayHeight = canvas.offsetHeight;
+
+      // 유효한 크기가 아니면 리턴
+      if (displayWidth === 0 || displayHeight === 0) {
+        return;
+      }
+
+      // 크기가 변경된 경우에만 업데이트
+      if (
+        canvas.width !== displayWidth * dpr ||
+        canvas.height !== displayHeight * dpr
+      ) {
+        canvas.width = displayWidth * dpr;
+        canvas.height = displayHeight * dpr;
+
+        // Context 상태 초기화 후 스케일 적용
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        console.log(
+          `Canvas resized: ${displayWidth}x${displayHeight} (DPR: ${dpr})`
+        );
+      }
+    }
+
+    resizeCanvas();
+
+    // Resize 이벤트 debouncing으로 성능 최적화
+    let resizeTimeout;
+    function handleResize() {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        // 강제로 reflow를 trigger해서 올바른 크기 측정
+        canvas.style.display = "none";
+        canvas.offsetHeight; // reflow trigger
+        canvas.style.display = "";
+
+        resizeCanvas();
+
+        // resize 후 여러 번 다시 그리기 (안정성 향상)
+        requestAnimationFrame(() => {
+          drawWave();
+          requestAnimationFrame(() => {
+            drawWave();
+          });
+        });
+      }, 150);
+    }
+
+    window.addEventListener("resize", handleResize);
+
+    // 모바일 화면 회전 시 별도 처리 (더 긴 지연)
+    function handleOrientationChange() {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        // 화면 회전 후 충분한 시간 대기
+        setTimeout(() => {
+          canvas.style.display = "none";
+          canvas.offsetHeight; // reflow trigger
+          canvas.style.display = "";
+
+          resizeCanvas();
+
+          // 여러 번 다시 그리기
+          for (let i = 0; i < 3; i++) {
+            setTimeout(() => {
+              drawWave();
+            }, i * 50);
+          }
+        }, 100);
+      }, 200);
+    }
+
+    window.addEventListener("orientationchange", handleOrientationChange);
+
+    // 애니메이션 변수들
+    let animationId;
+    let phase = 0;
+
+    // 파도 그리기 함수
+    function drawWave() {
+      const displayWidth = canvas.offsetWidth;
+      const displayHeight = canvas.offsetHeight;
+
+      // 크기가 0이면 그리지 않음 (아직 레이아웃이 완료되지 않음)
+      if (displayWidth === 0 || displayHeight === 0) {
+        return;
+      }
+
+      ctx.clearRect(0, 0, displayWidth, displayHeight);
+
+      // 모바일 감지
+      const isMobile = window.innerWidth <= 768;
+
+      // 모바일일 때 파도 높이 조정
+      const waveScale = isMobile ? 0.65 : 1; // 모바일에서 65%로 축소
+
+      // 파도 색상 설정 (진한 파란색)
+      ctx.fillStyle = "#1e40af";
+      ctx.beginPath();
+
+      // 파도 시작점
+      ctx.moveTo(0, displayHeight);
+
+      // 사인 곡선으로 파도 모양 생성
+      for (let x = 0; x <= displayWidth; x++) {
+        // 왼쪽에서 높고 오른쪽으로 갈수록 낮아지는 높이 계산
+        const heightRatio = 1 - x / displayWidth; // 1 (왼쪽) → 0 (오른쪽)
+        const baseHeight = (-60 - heightRatio * 30) * waveScale; // 모바일에서 축소
+
+        // 여러 개의 사인파를 합성하여 자연스러운 파도 만들기 (높낮이 변화 빠르게)
+        const y1 = Math.sin(x * 0.01 + phase * 6) * 20 * waveScale;
+        const y2 = Math.sin(x * 0.02 + phase * 8) * 15 * waveScale;
+        const y3 = Math.sin(x * 0.005 + phase * 4) * 25 * waveScale;
+
+        const y = displayHeight + baseHeight + y1 + y2 + y3;
+        ctx.lineTo(x, y);
+      }
+
+      // 파도 하단 채우기
+      ctx.lineTo(displayWidth, displayHeight);
+      ctx.lineTo(0, displayHeight);
+      ctx.closePath();
+      ctx.fill();
+
+      // 두 번째 파도 레이어 (더 투명하고 다른 패턴)
+      ctx.fillStyle = "rgba(59, 130, 246, 0.6)";
+      ctx.beginPath();
+      ctx.moveTo(0, displayHeight);
+
+      for (let x = 0; x <= displayWidth; x++) {
+        // 두 번째 레이어 높이 계산
+        const heightRatio = 1 - x / displayWidth;
+        const baseHeight = (-30 - heightRatio * 20) * waveScale; // 모바일에서 축소
+
+        const y1 = Math.sin(x * 0.008 + phase * 5) * 12 * waveScale;
+        const y2 = Math.sin(x * 0.015 + phase * 7) * 8 * waveScale;
+
+        const y = displayHeight + baseHeight + y1 + y2;
+        ctx.lineTo(x, y);
+      }
+
+      ctx.lineTo(displayWidth, displayHeight);
+      ctx.lineTo(0, displayHeight);
+      ctx.closePath();
+      ctx.fill();
+
+      // 세 번째 파도 레이어 (가장 투명)
+      ctx.fillStyle = "rgba(147, 197, 253, 0.4)";
+      ctx.beginPath();
+      ctx.moveTo(0, displayHeight);
+
+      for (let x = 0; x <= displayWidth; x++) {
+        // 세 번째 레이어 높이 계산
+        const heightRatio = 1 - x / displayWidth;
+        const baseHeight = (-20 - heightRatio * 15) * waveScale; // 모바일에서 축소
+
+        const y1 = Math.sin(x * 0.012 + phase * 6.5) * 10 * waveScale;
+        const y2 = Math.sin(x * 0.018 + phase * 5.5) * 6 * waveScale;
+
+        const y = displayHeight + baseHeight + y1 + y2;
+        ctx.lineTo(x, y);
+      }
+
+      ctx.lineTo(displayWidth, displayHeight);
+      ctx.lineTo(0, displayHeight);
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    // 애니메이션 루프
+    function animate() {
+      drawWave();
+      phase += 0.0033; // 파도가 움직이는 속도 (1/3로 느리게)
+      animationId = requestAnimationFrame(animate);
+    }
+
+    // 애니메이션 시작
+    animate();
+
+    // 페이지를 떠날 때 애니메이션 정리
+    window.addEventListener("beforeunload", () => {
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+      }
+    });
+
+    // 스크롤 이벤트 처리
+    const scrollContainer = document.getElementById("scrollContainer");
+    const screenBorder = document.querySelector(".screen-border");
+    const mainSection = document.getElementById("main");
+    const floridaAquaSection = document.getElementById("florida-aqua");
+    const floridaRedSection = document.getElementById("florida-red");
+    const okhotskNavySection = document.getElementById("okhotsk-navy");
+    const subscribePageSection = document.getElementById("subscribe-page");
+
+    function updateBorderColor() {
+      const scrollTop = scrollContainer.scrollTop;
+      const viewportHeight = window.innerHeight;
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+
+      // 각 섹션의 절대 위치 계산 (스크롤 컨테이너 기준)
+      const mainTop = mainSection.offsetTop;
+      const mainHeight = mainSection.offsetHeight;
+      const aquaTop = floridaAquaSection.offsetTop;
+      const aquaHeight = floridaAquaSection.offsetHeight;
+      const redTop = floridaRedSection.offsetTop;
+      const redHeight = floridaRedSection.offsetHeight;
+      const navyTop = okhotskNavySection.offsetTop;
+      const navyHeight = okhotskNavySection.offsetHeight;
+      const subscribeTop = subscribePageSection.offsetTop;
+      const subscribeHeight = subscribePageSection.offsetHeight;
+
+      // 현재 화면 중앙에 있는 섹션 결정
+      const centerScroll = scrollTop + viewportHeight / 2;
+
+      if (centerScroll >= subscribeTop) {
+        // subscribe 섹션이 화면 중앙에 있을 때
+        screenBorder.style.borderColor = "#FF472D";
+        metaThemeColor.setAttribute("content", "#FF472D");
+      } else if (centerScroll >= navyTop) {
+        // navy 섹션이 화면 중앙에 있을 때
+        screenBorder.style.borderColor = "#1e3a8a";
+        metaThemeColor.setAttribute("content", "#1e3a8a");
+      } else if (centerScroll >= redTop) {
+        // red 섹션이 화면 중앙에 있을 때
+        screenBorder.style.borderColor = "#e38073";
+        metaThemeColor.setAttribute("content", "#e38073");
+      } else if (centerScroll >= aquaTop) {
+        // aqua 섹션이 화면 중앙에 있을 때
+        screenBorder.style.borderColor = "#40E0D0";
+        metaThemeColor.setAttribute("content", "#40E0D0");
+      } else {
+        // main 섹션이 화면 중앙에 있을 때
+        screenBorder.style.borderColor = "#FF472D";
+        metaThemeColor.setAttribute("content", "#FF472D");
+      }
+    }
+
+    scrollContainer.addEventListener("scroll", updateBorderColor);
+
+    // 초기 로드 시에도 색상 설정
+    updateBorderColor();
+
+    // 가격 애니메이션 함수
+    function animatePrice(element, targetPrice, duration = 2000) {
+      const startTime = performance.now();
+      const startPrice = 0;
+
+      function updatePrice(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+
+        // easeOutCubic 이징 함수로 자연스러운 느낌
+        const easeOutCubic = 1 - Math.pow(1 - progress, 3);
+        const currentPrice = Math.floor(
+          startPrice + (targetPrice - startPrice) * easeOutCubic
+        );
+
+        // 천 단위 콤마 추가
+        element.textContent = currentPrice.toLocaleString();
+
+        if (progress < 1) {
+          requestAnimationFrame(updatePrice);
+        } else {
+          element.textContent = targetPrice.toLocaleString();
+        }
+      }
+
+      requestAnimationFrame(updatePrice);
+    }
+
+    // Intersection Observer로 florida-aqua 섹션이 보일 때 애니메이션 시작
+    const priceElement = document.querySelector("#aqua-hat .number");
+    const targetPrice = 45000;
+    let hasAnimatedAqua = false;
+
+    const priceObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasAnimatedAqua) {
+            hasAnimatedAqua = true;
+            // 약간의 지연 후 애니메이션 시작
+            setTimeout(() => {
+              animatePrice(priceElement, targetPrice, 1200);
+            }, 150);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    // florida-aqua 섹션 관찰 시작
+    priceObserver.observe(floridaAquaSection);
+
+    // Intersection Observer로 florida-red 섹션이 보일 때 애니메이션 시작
+    const redPriceElement = document.querySelector(".red-price");
+    const redTargetPrice = 45000;
+    let hasAnimatedRed = false;
+
+    const redPriceObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasAnimatedRed) {
+            hasAnimatedRed = true;
+            // 약간의 지연 후 애니메이션 시작
+            setTimeout(() => {
+              animatePrice(redPriceElement, redTargetPrice, 1200);
+            }, 150);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    // florida-red 섹션 관찰 시작
+    redPriceObserver.observe(floridaRedSection);
+
+    // Intersection Observer로 okhotsk-navy 섹션이 보일 때 애니메이션 시작
+    const navyPriceElement = document.querySelector(".navy-price");
+    const navyTargetPrice = 35000;
+    let hasAnimatedNavy = false;
+
+    const navyPriceObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasAnimatedNavy) {
+            hasAnimatedNavy = true;
+            // 약간의 지연 후 애니메이션 시작
+            setTimeout(() => {
+              animatePrice(navyPriceElement, navyTargetPrice, 1200);
+            }, 150);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    // okhotsk-navy 섹션 관찰 시작
+    navyPriceObserver.observe(okhotskNavySection);
+  </script>
+</body>
